@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBot.PoC", "TwitchBot.PoC\TwitchBot.PoC.csproj", "{ACAF0837-8567-4F54-8A60-49129C4794BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot.PcClient", "TwitchBot.PcClient\TwitchBot.PcClient.csproj", "{610DF916-C6DE-4F1B-B847-F8C33BCB14BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocConsole", "PocConsole", "{1DB9B8CB-D53B-4184-BD43-0D9EC16A6784}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACAF0837-8567-4F54-8A60-49129C4794BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACAF0837-8567-4F54-8A60-49129C4794BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACAF0837-8567-4F54-8A60-49129C4794BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACAF0837-8567-4F54-8A60-49129C4794BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{610DF916-C6DE-4F1B-B847-F8C33BCB14BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{610DF916-C6DE-4F1B-B847-F8C33BCB14BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{610DF916-C6DE-4F1B-B847-F8C33BCB14BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{610DF916-C6DE-4F1B-B847-F8C33BCB14BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ACAF0837-8567-4F54-8A60-49129C4794BA} = {1DB9B8CB-D53B-4184-BD43-0D9EC16A6784}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E12E445A-EF30-4C5E-B687-F1E0FEFC7F2B}
+	EndGlobalSection
+EndGlobal
