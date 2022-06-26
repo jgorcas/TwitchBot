@@ -23,7 +23,7 @@ namespace TwitchBot.PcClient.Forms
             _refreshTimer.Start();
             InitializeComponent();
             lbLogs.DataSource = _botService.GetLogs();
-            lbUsers.DisplayMember = "UserName";
+            lbUsers.DisplayMember = "DisplayInfo";
             lbUsers.ValueMember = "Id";
             //lbUsers.DataSource = _botService.ConnectedUsers;
             lbMessages.DataSource = Array.Empty<UserMessage>();
@@ -35,8 +35,9 @@ namespace TwitchBot.PcClient.Forms
             lbLogs.DataSource = logs;
             lbLogs.SelectedIndex = logs.Length - 1;
             var selectedUser = lbUsers.SelectedValue;
-            lbUsers.DataSource = _botService.ConnectedUsers.ToArray();
-            if (selectedUser != null)
+            var userSource = _botService.ConnectedUsers.ToArray();
+            lbUsers.DataSource = userSource;
+            if (selectedUser != null && userSource.Any(u => u.Id == (int)selectedUser))
                 lbUsers.SelectedValue = selectedUser;
             LoadUserMessages();
         }

@@ -44,6 +44,7 @@ namespace TwitchBot.PcClient.Services
                 {
                     _userCache[user.UserName].IdTwitch = user.IdTwitch;
                 }
+                _userCache[user.UserName].LastConnectionDate = user.LastConnectionDate;
                 _dbService.UpdateUser(_userCache[user.UserName]);
             }
         }
@@ -87,9 +88,11 @@ namespace TwitchBot.PcClient.Services
             return _dbService.GetAllUsers();
         }
 
-        public ICollection<User> GetAllConnectedUsers()
+        public ICollection<User> GetAllConnectedUsers(DateTime? minDateTime)
         {
-            return _userCache.Values;
+            if(!minDateTime.HasValue)
+                return _userCache.Values;
+            return _userCache.Values.Where(u => u.LastConnectionDate > minDateTime.Value).ToArray();
         }
 
         public void UserLeft(string username)

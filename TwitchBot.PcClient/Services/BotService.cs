@@ -11,16 +11,18 @@ namespace TwitchBot.PcClient.Services
     public sealed class BotService : IBotService
     {
         private readonly IUserService _userService;
+        private readonly ICommandService _commandService;
         private readonly ILogger _logger;
         private readonly IConfiguration _config;
         private readonly TwitchClient _client = new();
         private readonly List<string> _logs = new();
-        
+        private readonly DateTime _botStartTime = DateTime.Now;
         public IEnumerable<User> ConnectedUsers { get; private set; }
 
-        public BotService(IUserService userService, ILogger logger, IConfiguration config)
+        public BotService(IUserService userService,ICommandService commandService, ILogger logger, IConfiguration config)
         {
             _userService = userService;
+            _commandService = commandService;
             _userService.UserCacheChanged += UserService_UserCacheChanged;
             _logger = logger;
             _config = config;
@@ -30,7 +32,7 @@ namespace TwitchBot.PcClient.Services
 
         private void UserService_UserCacheChanged(object? sender, EventArgs e)
         {
-            ConnectedUsers = _userService.GetAllConnectedUsers();
+            ConnectedUsers = _userService.GetAllConnectedUsers(_botStartTime);
         }
 
         /// <summary>
@@ -49,6 +51,7 @@ namespace TwitchBot.PcClient.Services
             _client.OnUserLeft += Client_OnUserLeft;
             _client.OnExistingUsersDetected += Client_OnExistingUsersDetected;
             _client.OnMessageReceived += Client_OnMessageReceived;
+            
         }
 
         #region Events
@@ -56,6 +59,18 @@ namespace TwitchBot.PcClient.Services
         {
             _logs.Add($"{e.ChatMessage.UserId} - {e.ChatMessage.Username} -  {e.ChatMessage.Message}");
              _userService.UserSendMessage(e.ChatMessage);
+             var response = _commandService.ReadMessage(e.ChatMessage.Message);
+             if (!string.IsNullOrEmpty(response))
+                 SendMessage(e.ChatMessage.Channel, response);
+        }
+
+        private void SendMessage(string channel,string response)
+        {
+            var currentChannel =
+                _client.JoinedChannels.FirstOrDefault(
+                    c => c.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase));
+            if(currentChannel == null) return;
+            _client.SendMessage(currentChannel,response);
         }
 
         private void Client_OnExistingUsersDetected(object? sender, OnExistingUsersDetectedArgs e)

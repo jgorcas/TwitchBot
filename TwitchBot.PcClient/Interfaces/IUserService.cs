@@ -10,6 +10,6 @@ public interface IUserService
     void UserSendMessage(ChatMessage chatMessage);
     //User UnknownUserSendMessage(ChatMessage chatMessage);
     IEnumerable<User> GetAllUsers();
-    ICollection<User> GetAllConnectedUsers();
+    ICollection<User> GetAllConnectedUsers(DateTime? minDateTime);
     void UserLeft(string username);
 }

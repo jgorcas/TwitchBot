@@ -18,6 +18,8 @@
         public DateTime FirstConnectionDate { get; set; } 
         public DateTime? LastConnectionDate { get; set; }
         public DateTime? LastMessageDate { get; set; }
-        public List<UserMessage> Messages { get; set; }
+        public List<UserMessage> Messages { get; set; } = new List<UserMessage>();
+
+        public string DisplayInfo => Messages.Count > 0 ? $"{UserName} ({Messages.Count})" : UserName;
     }
 }

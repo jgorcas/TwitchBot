@@ -34,6 +34,7 @@ namespace TwitchBot.PcClient
                     services.AddSingleton<IBotService, BotService>();
                     services.AddSingleton<IDatabaseService, SQLiteDal>();
                     services.AddSingleton<IUserService, UserService>();
+                    services.AddSingleton<ICommandService, CommandService>();
                 });
         }
     }
