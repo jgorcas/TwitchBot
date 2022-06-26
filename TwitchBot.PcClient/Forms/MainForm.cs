@@ -1,7 +1,8 @@
 using System.ComponentModel;
-using TwitchBot.PcClient.Services;
 using Serilog;
+using TwitchBot.PcClient.Models;
 using Timer = System.Windows.Forms.Timer;
+using TwitchBot.PcClient.Interfaces;
 
 namespace TwitchBot.PcClient.Forms
 {
@@ -9,35 +10,49 @@ namespace TwitchBot.PcClient.Forms
     {
         private readonly IBotService _botService;
         private readonly ILogger _logger;
-        private Timer _refreshTimer;
-        private BindingSource _logsBinding;
-        private BindingSource _usersBinding;
-        public MainForm(IBotService botService,ILogger logger)
+        private readonly Timer _refreshTimer;
+        public MainForm(IBotService botService, ILogger logger)
         {
             _botService = botService;
             _logger = logger;
             _refreshTimer = new Timer
             {
-                Interval = 1000
+                Interval = 3000
             };
             _refreshTimer.Tick += RefreshTimerTick;
             _refreshTimer.Start();
-            _logsBinding = new BindingSource();
-            _usersBinding = new BindingSource();
             InitializeComponent();
-            lbLogs.DataSource = _logsBinding;
-            lbUsers.DataSource = _usersBinding;
+            lbLogs.DataSource = _botService.GetLogs();
+            lbUsers.DisplayMember = "UserName";
+            lbUsers.ValueMember = "Id";
+            //lbUsers.DataSource = _botService.ConnectedUsers;
+            lbMessages.DataSource = Array.Empty<UserMessage>();
         }
 
         private void RefreshTimerTick(object? sender, EventArgs e)
         {
-            _logsBinding.DataSource = _botService.GetLogs();
-            _logsBinding.ResetBindings(true);
-            _usersBinding.DataSource = _botService.GetUsers();
-            _usersBinding.ResetBindings(true);
-
+            var logs = _botService.GetLogs().ToArray();
+            lbLogs.DataSource = logs;
+            lbLogs.SelectedIndex = logs.Length - 1;
+            var selectedUser = lbUsers.SelectedValue;
+            lbUsers.DataSource = _botService.ConnectedUsers.ToArray();
+            if (selectedUser != null)
+                lbUsers.SelectedValue = selectedUser;
+            LoadUserMessages();
         }
 
+
+        private void LoadUserMessages()
+        {
+            if (lbUsers.SelectedItem != null)
+            {
+                var user = _botService.ConnectedUsers.FirstOrDefault(u => u.Id == (int)lbUsers.SelectedValue);
+                if (user != null)
+                {
+                    lbMessages.DataSource = user.Messages;
+                }
+            }
+        }
         #region Event
         private void bConnect_Click(object sender, EventArgs e)
         {
@@ -48,7 +63,7 @@ namespace TwitchBot.PcClient.Forms
             }
             catch (Exception ex)
             {
-                _logger.Error(ex,"Connection failed");
+                _logger.Error(ex, "Connection failed");
                 //todo label info
             }
         }
@@ -67,23 +82,26 @@ namespace TwitchBot.PcClient.Forms
                 //todo label info
             }
         }
-        #endregion
+        private void lbUsers_SelectedValueChanged(object sender, EventArgs e)
+        {
+            LoadUserMessages();
+        }
 
         private void bClearLogs_Click(object sender, EventArgs e)
         {
             _botService.ClearLogs();
         }
-
-        private void bRefreshLogs_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         protected override void OnClosing(CancelEventArgs e)
         {
             _refreshTimer.Stop();
             _botService.Disconnect();
             base.OnClosing(e);
         }
+        #endregion
+
+
+
+
+
     }
 }

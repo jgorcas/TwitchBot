@@ -1,7 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using TwitchBot.PcClient.DataAccessLayerSQlite;
 using TwitchBot.PcClient.Forms;
+using TwitchBot.PcClient.Interfaces;
 using TwitchBot.PcClient.Services;
 
 namespace TwitchBot.PcClient
@@ -9,7 +11,7 @@ namespace TwitchBot.PcClient
     internal static class Program
     {
 
-        public static IServiceProvider ServiceProvider { get; private set; }
+        public static IServiceProvider ServiceProvider { get; private set; } = null!;
 
         [STAThread]
         static void Main()
@@ -30,6 +32,8 @@ namespace TwitchBot.PcClient
                 {
                     services.AddTransient<MainForm>();
                     services.AddSingleton<IBotService, BotService>();
+                    services.AddSingleton<IDatabaseService, SQLiteDal>();
+                    services.AddSingleton<IUserService, UserService>();
                 });
         }
     }
