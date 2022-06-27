@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using TwitchBot.PcV2.Interfaces;
+using TwitchBot.Services.Interfaces;
 
 namespace TwitchBot.PcV2
 {
@@ -24,13 +24,6 @@ namespace TwitchBot.PcV2
 
         private void MainForm_OnLog(object? sender, TwitchLib.Client.Events.OnLogArgs e)
         {
-            //if (lbLogs.InvokeRequired)
-            //{
-            //    Action safeWrite = delegate { lbLogs.Items.Add(e.Data); };
-            //    lbLogs.Invoke(safeWrite);
-            //}
-            //else
-            //    lbLogs.Items.Add(e.Data);
             this.Invoke(() => { lbLogs.Items.Add(e.Data); });
         }
 

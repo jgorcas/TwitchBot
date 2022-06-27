@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
-using TwitchBot.PcV2.Interfaces;
+using TwitchBot.Services.Interfaces;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 
-namespace TwitchBot.PcV2.Services
+namespace TwitchBot.Services.Services
 {
     public sealed class TwitchClientService : ITwitchClientService
     {
@@ -33,14 +33,9 @@ namespace TwitchBot.PcV2.Services
             var credentials = new ConnectionCredentials(infoBot[0], infoBot[1]);
             _client.Initialize(credentials, _config["TwitchChannel"]);
             _client.OnLog += ClientOnOnLog;
-            _client.OnChatColorChanged += _client_OnChatColorChanged;
+            
         }
-
-        private void _client_OnChatColorChanged(object? sender, OnChatColorChangedArgs e)
-        {
-            _logger.Debug($"{e.DateTime} - {e.Data}");
-
-        }
+       
 
         private void ClientOnOnLog(object? sender, OnLogArgs e)
         {

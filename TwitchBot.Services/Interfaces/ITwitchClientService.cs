@@ -1,8 +1,6 @@
-﻿
-using TwitchLib.Client;
-using TwitchLib.Client.Models;
+﻿using TwitchLib.Client;
 
-namespace TwitchBot.PcV2.Interfaces
+namespace TwitchBot.Services.Interfaces
 {
     public interface ITwitchClientService
     {

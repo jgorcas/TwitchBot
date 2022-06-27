@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using TwitchBot.PcV2.Interfaces;
-using TwitchBot.PcV2.Services;
+using TwitchBot.Services.Interfaces;
+using TwitchBot.Services.Services;
 
 namespace TwitchBot.PcV2
 {

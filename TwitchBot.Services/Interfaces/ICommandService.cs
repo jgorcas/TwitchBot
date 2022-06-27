@@ -1,4 +1,4 @@
-﻿namespace TwitchBot.PcV2.Interfaces
+﻿namespace TwitchBot.Services.Interfaces
 {
     public interface ICommandService
     {

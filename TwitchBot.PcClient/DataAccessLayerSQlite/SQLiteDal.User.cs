@@ -38,8 +38,8 @@ namespace TwitchBot.PcClient.DataAccessLayerSQlite
             catch (Exception e)
             {
                 _logger.Error(e, "SQLiteService - AddNewUser");
-                throw;
             }
+            return false;
         }
 
         /// <summary>
@@ -78,8 +78,9 @@ namespace TwitchBot.PcClient.DataAccessLayerSQlite
             catch (Exception e)
             {
                 _logger.Error(e, "SQLiteService - UpdateUserLastConnection");
-                throw;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -118,7 +119,6 @@ namespace TwitchBot.PcClient.DataAccessLayerSQlite
             catch (Exception e)
             {
                 _logger.Error(e, "SQLiteService - GetAllUsers");
-                throw;
             }
             return users;
         }
@@ -163,8 +163,9 @@ namespace TwitchBot.PcClient.DataAccessLayerSQlite
             catch (Exception e)
             {
                 _logger.Error(e, "SQLiteService - GetAllUsers");
-                throw;
             }
+
+            return null;
         }
 
         /// <summary>
@@ -205,8 +206,9 @@ namespace TwitchBot.PcClient.DataAccessLayerSQlite
             catch (Exception e)
             {
                 _logger.Error(e, "SQLiteService - GetAllUsers");
-                throw;
             }
+
+            return null;
         }
 
     }

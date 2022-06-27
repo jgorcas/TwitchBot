@@ -1,0 +1,14 @@
+﻿[
+  {
+    "Command": "!github",
+    "Message": "Le github : http://www.github.com/jgorcas"
+  },
+  {
+    "Command": "!git",
+    "Message": "Le github : http://www.github.com/jgorcas"
+  },
+  {
+    "Command": "!discord",
+    "Message": "Le discord : http://www.google.com"
+  }
+]

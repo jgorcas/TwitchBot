@@ -33,7 +33,6 @@ namespace TwitchBot.PcClient.DataAccessLayerSQlite
             catch (Exception e)
             {
                 _logger.Error(e, "SQLiteService - GetUserMessages");
-                throw;
             }
             return messages;
         }
@@ -58,8 +57,9 @@ namespace TwitchBot.PcClient.DataAccessLayerSQlite
             catch (Exception e)
             {
                 _logger.Error(e, "SQLiteService - AddUserMessage");
-                throw;
             }
+
+            return false;
         }
     }
 }

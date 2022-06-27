@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBot.PcClient", "Twitc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocConsole", "PocConsole", "{1DB9B8CB-D53B-4184-BD43-0D9EC16A6784}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot.PcV2", "TwitchBot.PcV2\TwitchBot.PcV2.csproj", "{4884B2F2-29C4-4AF0-BC4E-17EF5F0CDECA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBot.PcV2", "TwitchBot.PcV2\TwitchBot.PcV2.csproj", "{4884B2F2-29C4-4AF0-BC4E-17EF5F0CDECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot.Tests", "TwitchBot.Tests\TwitchBot.Tests.csproj", "{2247B313-AA86-44FC-AEFB-39F5C42CD773}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot.Services", "TwitchBot.Services\TwitchBot.Services.csproj", "{56BFD97B-229E-481D-B837-231CF7260A15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,14 @@ Global
 		{4884B2F2-29C4-4AF0-BC4E-17EF5F0CDECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4884B2F2-29C4-4AF0-BC4E-17EF5F0CDECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4884B2F2-29C4-4AF0-BC4E-17EF5F0CDECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2247B313-AA86-44FC-AEFB-39F5C42CD773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2247B313-AA86-44FC-AEFB-39F5C42CD773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2247B313-AA86-44FC-AEFB-39F5C42CD773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2247B313-AA86-44FC-AEFB-39F5C42CD773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56BFD97B-229E-481D-B837-231CF7260A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BFD97B-229E-481D-B837-231CF7260A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56BFD97B-229E-481D-B837-231CF7260A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56BFD97B-229E-481D-B837-231CF7260A15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
