@@ -14,8 +14,9 @@ public class CommandService : ICommandService
         var command = message[0].ToLower();
         switch (command)
         {
+            case "git":
             case "github":
-                resultMessage = @"Super lien github : http:\\www.github.com\jgorcas";
+                resultMessage = @"Super lien github http://www.github.com/jgorcas";
                 break;
             case "roll":
                 Random rdn = new Random(DateTime.Now.Millisecond);
