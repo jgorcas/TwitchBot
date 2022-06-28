@@ -1,10 +1,11 @@
 ﻿using System.Text.RegularExpressions;
-using TwitchLib.Client;
+using TwitchBot.Services.Interfaces;
+using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models;
 
-namespace TwitchBot.Services.Messages
+namespace TwitchBot.Services.Services.CommandServiceAction
 {
-    public sealed class HelloMessageAction : IMessageAction
+    public sealed class HelloMessageAction : ICommandServiceAction
     {
         private readonly Regex _regex = new (@"\b(bonjour|hello|hi|salut)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
         //private readonly string[] _helloWords = { "bonjour","hello","hi","salut" };
@@ -14,7 +15,7 @@ namespace TwitchBot.Services.Messages
             return _regex.IsMatch(message);
         }
 
-        public void RunAction(TwitchClient client,ChatMessage chatMessage)
+        public void RunAction(ITwitchClient client,ChatMessage chatMessage)
         {
             client.SendMessage(chatMessage.Channel,$"Bonjour {chatMessage.Username} ! Comment vas tu ?");
         }

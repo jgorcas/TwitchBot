@@ -9,6 +9,10 @@
   },
   {
     "Command": "!discord",
-    "Message": "Le discord : http://www.google.com"
+    "Message": "Le discord : en construction ! :)"
+  },
+  {
+    "Command": "!welcome",
+    "Message": "Hello les viewers ! Le but de cette chaine et de permettre aux débutants et curieux d'échanger autour de la programmation (principalement C# / SQL) ! N'hésitez pas à poser vos questions et à faire des remarques (constructives) :p "
   }
 ]

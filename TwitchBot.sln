@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocConsole", "PocConsole", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBot.PcV2", "TwitchBot.PcV2\TwitchBot.PcV2.csproj", "{4884B2F2-29C4-4AF0-BC4E-17EF5F0CDECA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot.Tests", "TwitchBot.Tests\TwitchBot.Tests.csproj", "{2247B313-AA86-44FC-AEFB-39F5C42CD773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBot.Tests", "TwitchBot.Tests\TwitchBot.Tests.csproj", "{2247B313-AA86-44FC-AEFB-39F5C42CD773}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchBot.Services", "TwitchBot.Services\TwitchBot.Services.csproj", "{56BFD97B-229E-481D-B837-231CF7260A15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitchBot.Services", "TwitchBot.Services\TwitchBot.Services.csproj", "{56BFD97B-229E-481D-B837-231CF7260A15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

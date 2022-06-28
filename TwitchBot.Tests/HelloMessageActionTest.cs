@@ -1,4 +1,4 @@
-using TwitchBot.Services.Messages;
+using TwitchBot.Services.Services.CommandServiceAction;
 
 namespace TwitchBot.Tests
 {

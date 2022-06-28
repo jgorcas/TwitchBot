@@ -35,7 +35,6 @@ namespace TwitchBot.Services.Services
             _client.OnLog += ClientOnOnLog;
             
         }
-       
 
         private void ClientOnOnLog(object? sender, OnLogArgs e)
         {
@@ -50,8 +49,9 @@ namespace TwitchBot.Services.Services
 
         public void Disconnect()
         {
-            if(_client.IsConnected)
-                _client.Disconnect();
+            if (!_client.IsConnected) return;
+            _client.Disconnect();
+            _logger.Debug("Disconnect twitch bot");
         }
 
         public TwitchClient GetTwitchClient()
@@ -62,12 +62,6 @@ namespace TwitchBot.Services.Services
                 InitializeTwitchClient();
             }
             return _client;
-        }
-
-        public void SendMessage(string channel, string message)
-        {
-            var currentChannel = _client.JoinedChannels.FirstOrDefault(c => c.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase));
-            _client.SendMessage(currentChannel, message);
         }
     }
 }

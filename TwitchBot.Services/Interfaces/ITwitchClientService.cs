@@ -7,6 +7,5 @@ namespace TwitchBot.Services.Interfaces
         void Connect();
         void Disconnect();
         TwitchClient GetTwitchClient();
-        void SendMessage(string channel, string message);
     }
 }

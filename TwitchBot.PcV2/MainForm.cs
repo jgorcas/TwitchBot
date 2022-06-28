@@ -6,12 +6,15 @@ namespace TwitchBot.PcV2
     public partial class MainForm : Form
     {
         private readonly ITwitchClientService _twitchClientService;
-        private readonly ICommandService _commandService;
 
-        public MainForm(ITwitchClientService twitchClientService, ICommandService commandService)
+        private readonly ICommandService _commandFactory;
+        //private readonly ICommandService _commandService;
+
+        public MainForm(ITwitchClientService twitchClientService, ICommandService commandFactory)
         {
             _twitchClientService = twitchClientService;
-            _commandService = commandService;
+            _commandFactory = commandFactory;
+            //_commandService = commandService;
             InitializeComponent();
 
         }

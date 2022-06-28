@@ -1,71 +1,36 @@
-﻿using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Serilog;
+﻿using Serilog;
 using TwitchBot.Services.Interfaces;
-using TwitchBot.Services.Models;
+using TwitchBot.Services.Services.CommandServiceAction;
 using TwitchLib.Client.Events;
-using TwitchLib.Client.Models;
+using TwitchLib.Client.Interfaces;
 
-namespace TwitchBot.Services.Services
+namespace TwitchBot.Services.Services;
+
+public class CommandService : ICommandService
 {
-    public class CommandService : ICommandService
+    private readonly ILogger _logger;
+    private readonly ITwitchClient _client;
+    private readonly ICommandServiceAction[] _messageActions;
+
+    public CommandService(ILogger logger, ITwitchClientService twitchClientService)
     {
-        private readonly ITwitchClientService _twitchClientService;
-        private readonly ILogger _logger;
-        private readonly TextCommand[] _textCommands;
-
-        public CommandService(ITwitchClientService twitchClientService, ILogger logger)
+        _logger = logger;
+        _client = twitchClientService.GetTwitchClient();
+        _client.OnMessageReceived += OnOnMessageReceived;
+        _messageActions = new ICommandServiceAction[]
         {
-            _twitchClientService = twitchClientService;
-            _logger = logger;
-            _twitchClientService.GetTwitchClient().OnMessageReceived += OnOnMessageReceived;
-            var json = File.ReadAllText(@"TwitchTextCommands.json");
-            _textCommands = JsonConvert.DeserializeObject<TextCommand[]>(json) ?? Array.Empty<TextCommand>();
-        }
+            new HelloMessageAction(),
+            new TwitchTextCommandsAction()
+        };
+    }
 
-        private void OnOnMessageReceived(object? sender, OnMessageReceivedArgs e)
+    private void OnOnMessageReceived(object? sender, OnMessageReceivedArgs e)
+    {
+        var message = e.ChatMessage.Message;
+        _logger.Debug($"CommandFactory - OnOnMessageReceived : {message}");
+        foreach (var messageAction in _messageActions.Where(m => m.IsConcern(message)))
         {
-            PlayCommand(e.ChatMessage);
-            SayHello(e.ChatMessage);
-        }
-
-        private readonly Regex _rgxSayHello = new(@"\b(bonjour|hello|hi|salut)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-        private void SayHello(ChatMessage chatMessage)
-        {
-            if(_rgxSayHello.IsMatch(chatMessage.Message))
-                _twitchClientService.SendMessage(chatMessage.Channel,$"Bonjour {chatMessage.Username} !! Comment vas tu ?");
-        }
-
-        private void PlayCommand(ChatMessage chatMessage)
-        {
-            if(!chatMessage.Message.StartsWith('!')) return;
-
-
-            var textCommand = _textCommands.FirstOrDefault(tc =>
-                tc.Command.Equals(chatMessage.Message, StringComparison.OrdinalIgnoreCase));
-            if(textCommand!=null)
-            {
-                _twitchClientService.SendMessage(chatMessage.Channel, textCommand.Message);
-                return;
-            }
-
-
-            string message = chatMessage.Message[1..].ToLower();
-            string result;
-            switch (message)
-            {
-                case "commands":
-                    result = $"Commandes existantes : !commands | !roll | { string.Join( " | ", _textCommands.Select(t => t.Command))}";
-                    break;
-                case "roll":
-                    Random rdn = new Random(DateTime.Now.Millisecond);
-                    result = $"Roll 1-100 => {rdn.Next(1, 100)}";
-                    break;
-                default:
-                    return;
-            }
-            _twitchClientService.SendMessage(chatMessage.Channel,result);
+            messageAction.RunAction(_client, e.ChatMessage);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace TwitchBot.PcV2
                 {
                     services.AddTransient<MainForm>();
                     services.AddSingleton<ITwitchClientService, TwitchClientService>();
+                    //services.AddSingleton<ICommandService, CommandService>();
                     services.AddSingleton<ICommandService, CommandService>();
                 });
         }
