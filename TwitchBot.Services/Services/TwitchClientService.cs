@@ -56,11 +56,6 @@ namespace TwitchBot.Services.Services
 
         public TwitchClient GetTwitchClient()
         {
-            if (!_client.IsConnected)
-            {
-                _client = new TwitchClient();
-                InitializeTwitchClient();
-            }
             return _client;
         }
     }

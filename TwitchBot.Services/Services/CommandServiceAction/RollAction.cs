@@ -7,7 +7,7 @@ namespace TwitchBot.Services.Services.CommandServiceAction
 {
     public class RollAction : ICommandServiceAction
     {
-        private static readonly Random RandomDice = new ();
+        private static readonly Random RandomDice = new();
         public bool IsConcern(string message)
         {
             return message.StartsWith("!roll", StringComparison.OrdinalIgnoreCase);
@@ -17,7 +17,7 @@ namespace TwitchBot.Services.Services.CommandServiceAction
         public void RunAction(ITwitchClient client, ChatMessage chatMessage)
         {
 
-            client.SendMessage(chatMessage.Channel, ParseMessage(chatMessage.Message));
+            client.SendMessage(chatMessage.Channel, ParseMessage(chatMessage));
         }
 
         public string[] GetCommands()
@@ -25,8 +25,9 @@ namespace TwitchBot.Services.Services.CommandServiceAction
             return new[] { "!roll", "!roll #d#" };
         }
 
-        public string ParseMessage(string message)
+        public string ParseMessage(ChatMessage chatMessage)
         {
+            var message = chatMessage.Message;
             string result = "Houston on a un problème ! ";
             var rollInfo = message.ToLower().Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             if (rollInfo.Length == 1)
@@ -39,27 +40,31 @@ namespace TwitchBot.Services.Services.CommandServiceAction
                 if (matches.Count > 0)
                 {
                     var matchGroup = matches[0].Groups;
-                    var diceNumber = Convert.ToInt16(matchGroup[1].Value);
-                    var diceValue = Convert.ToInt16(matchGroup[2].Value);
-                    var max = diceNumber * diceValue;
+                    if (!short.TryParse(matchGroup[1].Value, out var diceNumber) || !short.TryParse(matchGroup[2].Value, out var diceValue))
+                    {
+                        return result;
+                    }
+                    if (diceNumber == 0 || diceValue == 0 || diceNumber > 100)
+                    {
+                        return result;
+                    }
 
-                    var rdnResult = RandomDice.Next(diceNumber, max);
+                    int[] rolls = new int[diceNumber];
+                    for (int i = 0; i < diceNumber; i++)
+                    {
+                        rolls[i] = RandomDice.Next(1, diceValue + 1);
+                    }
+
+                    var rdnResult = rolls.Sum();
+
                     result = $"Roll {diceNumber}d{diceValue} :";
-                    if (rdnResult == diceNumber)
-                    {
-                        result += " ECHEC CRITIQUE ! Ahah !";
-                    }
-                    else if (rdnResult == max)
-                    {
-                        result += " SUCCES CRITIQUE ! Ouah bg !";
-                    }
-                    else
-                    {
-                        result += $" {rdnResult}";
-                    }
+
+                    result += $" {rdnResult} ({string.Join('+', rolls.Select(r => r==1?"1!":$"{r}"))})";
+                    if (result.Length > 500)
+                        result = "Houston on a un problème ! ";
                 }
             }
-            return result;
+            return $"@{chatMessage.Username} - {result}";
         }
     }
 }
