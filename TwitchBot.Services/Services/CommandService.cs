@@ -21,7 +21,8 @@ public class CommandService : ICommandService
         {
             new HelloMessageAction(),
             new TextCommandsAction(),
-            new RollAction()
+            new RollAction(),
+            new TrollMessageAction()
         };
     }
 
