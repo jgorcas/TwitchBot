@@ -7,10 +7,10 @@ using TwitchLib.Client.Models;
 namespace TwitchBot.Services.Services.CommandServiceAction
 {
 
-    public sealed class TwitchTextCommandsAction : ICommandServiceAction
+    public sealed class TextCommandsAction : ICommandServiceAction
     {
         private readonly TextCommand[] _textCommands;
-        public TwitchTextCommandsAction()
+        public TextCommandsAction()
         {
             var json = File.ReadAllText(@"TwitchTextCommands.json");
              _textCommands = JsonConvert.DeserializeObject<TextCommand[]>(json)?? Array.Empty<TextCommand>();
@@ -24,6 +24,11 @@ namespace TwitchBot.Services.Services.CommandServiceAction
         public void RunAction(ITwitchClient client,ChatMessage chatMessage)
         {
             client.SendMessage(chatMessage.Channel,_textCommands.First(tc => tc.Command.Equals(chatMessage.Message, StringComparison.OrdinalIgnoreCase)).Message);
+        }
+
+        public string[] GetCommands()
+        {
+            return _textCommands.Select(c => c.Command).ToArray();
         }
     }
 }

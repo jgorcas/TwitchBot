@@ -20,7 +20,8 @@ public class CommandService : ICommandService
         _messageActions = new ICommandServiceAction[]
         {
             new HelloMessageAction(),
-            new TwitchTextCommandsAction()
+            new TextCommandsAction(),
+            new RollAction()
         };
     }
 
@@ -28,6 +29,13 @@ public class CommandService : ICommandService
     {
         var message = e.ChatMessage.Message;
         _logger.Debug($"CommandFactory - OnOnMessageReceived : {message}");
+        if (message.Equals("!commands"))
+        {
+            var commands = _messageActions.SelectMany(m => m.GetCommands()).ToArray();
+            Array.Sort(commands);
+            _client.SendMessage(e.ChatMessage.Channel, $"Commandes : {string.Join(" | ",commands)}");
+            return;
+        }
         foreach (var messageAction in _messageActions.Where(m => m.IsConcern(message)))
         {
             messageAction.RunAction(_client, e.ChatMessage);

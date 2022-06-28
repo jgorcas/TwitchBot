@@ -7,6 +7,6 @@ namespace TwitchBot.Services.Interfaces
     {
         bool IsConcern(string message);
         void RunAction(ITwitchClient client, ChatMessage chatMessage);
-
+        string[] GetCommands();
     }
 }
